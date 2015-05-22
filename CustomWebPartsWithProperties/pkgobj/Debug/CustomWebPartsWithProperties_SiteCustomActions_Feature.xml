@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Feature xmlns="http://schemas.microsoft.com/sharepoint/" Title="CustomWebPartsWithProperties - Custom Actions" Description="jQuery, CustomWebPart namespace" Id="dce89653-1408-4638-a930-7b65aa0bef49" Scope="Site">
+  <ElementManifests>
+    <ElementManifest Location="CustomAction_jQuery\Elements.xml" />
+    <ElementManifest Location="CustomAction_CustomWebPart\Elements.xml" />
+  </ElementManifests>
+</Feature>

@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+  <CustomAction ScriptSrc="~sitecollection/SiteAssets/customwebparts/js/CustomWebPart.js" Location="ScriptLink"  Sequence="20003" />
+  <CustomAction ScriptSrc="~sitecollection/SiteAssets/customwebparts/js/CustomWebPart.Test.js" Location="ScriptLink" Sequence="20004" />
+</Elements>

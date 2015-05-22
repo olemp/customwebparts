@@ -1,0 +1,29 @@
+﻿{
+    "FieldConfigurations": [],
+    "ContentTypeConfigurations": [],
+    "TaxonomyConfigurations": [],
+    "SearchConfigurations": [],
+    "SandboxedSolutions": [
+        "CustomWebPartsWithProperties.wsp"
+    ],
+	"PermissionLevels": [
+    	
+    ],
+    "SiteFeatures": [],
+    "Rootweb": {
+        "ContentFolders": [
+          {
+            "FolderName": "SiteAssets",
+            "ListName"  : "Site Assets",
+            "FolderUrl" : "customwebparts"
+          }
+        ],
+        "Description": "",
+        "Language": "1033",
+        "Name": "Custom Web Part Manager",
+        "Template": "",
+        "Url": "/",
+        "WebFeatures": [],
+        "Webs": []
+    }
+}
