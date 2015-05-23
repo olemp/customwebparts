@@ -12,7 +12,7 @@
         <property name="Description" type="string">A custom webpart that displays all subwebs</property>
         <property name="Content" type="string">&lt;div class="custom-webpart" data-webpart-properties='[{ }]' data-webpart-renderfunction="CustomWebPart.Test.Subwebs"&gt;&lt;/div&gt;</property>
         <property name="CatalogIconImageUrl" type="string" />
-        <property name="Title" type="string">Custom Web Part - Subwebs</property>
+        <property name="Title" type="string">Subwebs</property>
         <property name="AllowHide" type="bool">True</property>
         <property name="AllowMinimize" type="bool">True</property>
         <property name="AllowZoneChange" type="bool">True</property>
