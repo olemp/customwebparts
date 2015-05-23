@@ -4,6 +4,40 @@ var CustomWebPart;
 (function (CustomWebPart) {
     var Test;
     (function (Test) {
+        function YammerEmbed(webpart) {
+            var properties = webpart.properties[0];
+            var width = properties["Width"] || "auto";
+            var height = properties["Height"] || "auto";
+            webpart.instance.html(String['format']("<div id='{0}' style='width:{1};height:{2}' /></div>", 'embedded-feed', width, height));
+            jQuery.getScript('https://assets.yammer.com/assets/platform_embed.js', function () {
+                yam.connect.embedFeed({
+                    container: "#embedded-feed",
+                    network: properties["Network"],
+                    feedType: properties["FeedType"],
+                    feedId: properties["FeedId"]
+                });
+            });
+        }
+        Test.YammerEmbed = YammerEmbed;
+        function Subwebs(webpart) {
+            jQuery.ajax({
+                url: String['format']("{0}/_api/web/webs", _spPageContextInfo.webAbsoluteUrl),
+                type: 'get',
+                headers: {
+                    'accept': 'application/json;odata=nometadata'
+                },
+                success: function (d) {
+                    var stringBuilder = [];
+                    stringBuilder.push("<ul>");
+                    jQuery.each(d.value, function (id, val) {
+                        stringBuilder.push(String['format']("<li>{0}</li>", val.Title));
+                    });
+                    stringBuilder.push("<ul>");
+                    webpart.instance.html(stringBuilder.join(''));
+                }
+            });
+        }
+        Test.Subwebs = Subwebs;
         /* HelloWorld */
         /* REQUIRED: None */
         function HelloWorldWebPart(webpart) {
@@ -117,19 +151,5 @@ var CustomWebPart;
             });
         }
         Test.CalendarItems = CalendarItems;
-        /* RSSFeed */
-        function RSSFeed(webpart) {
-            var properties = webpart.properties[0];
-            jQuery['getFeed']({
-                url: properties["Url"],
-                success: function (feed) {
-                    console.log(feed.title);
-                },
-                error: function () {
-                    console.log(arguments);
-                }
-            });
-        }
-        Test.RSSFeed = RSSFeed;
     })(Test = CustomWebPart.Test || (CustomWebPart.Test = {}));
 })(CustomWebPart || (CustomWebPart = {}));

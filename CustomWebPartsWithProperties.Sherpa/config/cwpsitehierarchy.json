@@ -16,7 +16,13 @@
             "FolderName": "SiteAssets",
             "ListName"  : "Site Assets",
             "FolderUrl" : "customwebparts"
-          }
+          },
+		  {
+			"FolderName": "WebParts",
+			"ListName": "Web Part Gallery",
+			"FolderUrl": "",
+			"PropertiesFile": "properties.json"
+		  }
         ],
         "Description": "",
         "Language": "1033",

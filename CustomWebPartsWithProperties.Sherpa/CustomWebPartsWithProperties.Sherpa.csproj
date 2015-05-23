@@ -46,6 +46,13 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="config\cwpsitehierarchy.json" />
+    <None Include="content\WebParts\Custom Web Part - Calendar Items.webpart" />
+    <None Include="content\WebParts\Custom Web Part - List Items.webpart" />
+    <None Include="content\WebParts\Custom Web Part - Permissions.webpart" />
+    <None Include="content\WebParts\Custom Web Part - Permssions With CSS.webpart" />
+    <None Include="content\WebParts\Custom Web Part - Poll.webpart" />
+    <None Include="content\WebParts\Custom Web Part - Subwebs.webpart" />
+    <None Include="content\WebParts\properties.json" />
     <None Include="solutions\CustomWebPartsWithProperties.wsp" />
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +63,8 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="content\SiteAssets\config\poll.txt" />
+    <Content Include="content\SiteAssets\css\Poll.css" />
     <Content Include="content\SiteAssets\html\custompropertiespane.txt" />
     <Content Include="content\SiteAssets\js\jquery-2.1.4.min.js" />
   </ItemGroup>

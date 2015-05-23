@@ -1,5 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Elements xmlns="http://schemas.microsoft.com/sharepoint/">
     <CustomAction ScriptSrc="~sitecollection/SiteAssets/customwebparts/js/jquery-2.1.4.min.js" Location="ScriptLink" Sequence="20001" />
-    <CustomAction ScriptSrc="~sitecollection/SiteAssets/customwebparts/js/jquery.jfeed.js" Location="ScriptLink" Sequence="20002" />
 </Elements>

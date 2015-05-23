@@ -151,7 +151,7 @@ declare module Sys {
 declare var $get: { (id: string): HTMLElement; };
 declare var $addHandler: { (element: HTMLElement, eventName: string, handler: (e: Event) => void): void; };
 declare var $removeHandler: { (element: HTMLElement, eventName: string, handler: (e: Event) => void): void; };
-
+declare function ExecuteOrDelayUntilScriptLoaded(func: Function, file: string);
 
 declare module SP {
     export class SOD {

@@ -1,0 +1,66 @@
+﻿[
+    {
+        "Path": "Calendar Items.webpart",
+        "Url": "Calendar Items.webpart",
+		"Properties": {
+			"Title": "Calendar Items",
+			"Group": "Puzzlepart Custom"
+		}
+    },
+	{
+        "Path": "List Items.webpart",
+        "Url": "List Items.webpart",
+		"Properties": {
+			"Title": "List Items",
+			"Group": "Puzzlepart Custom"
+		}
+    },
+	{
+        "Path": "Permissions.webpart",
+        "Url": "Permissions.webpart",
+		"Properties": {
+			"Title": "Permissions",
+			"Group": "Puzzlepart Custom"
+		}
+    },
+	{
+        "Path": "Permssions With CSS.webpart",
+        "Url": "Permssions With CSS.webpart",
+		"Properties": {
+			"Title": "Permissions With CSS",
+			"Group": "Puzzlepart Custom"
+		}
+    },
+	{
+        "Path": "Poll.webpart",
+        "Url": "Poll.webpart",
+		"Properties": {
+			"Title": "Poll",
+			"Group": "Puzzlepart Custom"
+		}
+    },
+	{
+        "Path": "Subwebs.webpart",
+        "Url": "Subwebs.webpart",
+		"Properties": {
+			"Title": "Subwebs",
+			"Group": "Puzzlepart Custom"
+		}
+    },
+	{
+        "Path": "Hello World.webpart",
+        "Url": "Hello World.webpart",
+		"Properties": {
+			"Title": "Hello World",
+			"Group": "Puzzlepart Custom"
+		}
+    },
+	{
+        "Path": "Yammer Embed.webpart",
+        "Url": "Yammer Embed.webpart",
+		"Properties": {
+			"Title": "Yammer Embed",
+			"Group": "Puzzlepart Custom"
+		}
+    }
+]

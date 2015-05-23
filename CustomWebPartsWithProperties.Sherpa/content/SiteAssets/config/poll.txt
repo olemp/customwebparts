@@ -1,0 +1,12 @@
+﻿{
+	"Name": "Satisfaction Survey",
+	"Questions": [
+		{ "Question": "How satisified are you with the design of the intranet?", "FreeText": false, "Choices": "Very Good,Good,Normal,Bad,Very Bad" },
+		{ "Question": "How satisified are you with the functionalit of the intranet?", "FreeText": false, "Choices": "Very Good,Good,Normal,Bad,Very Bad" },
+		{ "Question": "How satisified are you with the document management?", "FreeText": false, "Choices": "Very Good,Good,Normal,Bad,Very Bad" },
+		{ "Question": "Write a little about your experiences with team sites", "FreeText": true },
+		{ "Question": "Write a little about your experiences with project sites", "FreeText": true },
+		{ "Question": "Write a little about your experiences with search", "FreeText": true },
+		{ "Question": "Write a little about your experiences with Yammer", "FreeText": true }
+	]
+}
