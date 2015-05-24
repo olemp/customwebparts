@@ -6,16 +6,27 @@ var CustomWebPart;
     (function (Test) {
         function YammerEmbed(webpart) {
             var properties = webpart.properties[0];
-            var width = properties["Width"] || "auto";
-            var height = properties["Height"] || "auto";
+            var width = properties["Width"] || "400px";
+            var height = properties["Height"] || "800px";
+            var promptText = properties["PromptText"] || "Say something..";
+            var header = properties["Header"] ? properties["Header"] == "true" : false;
+            var footer = properties["Footer"] ? properties["Footer"] == "true" : false;
+            console.log(properties);
             webpart.instance.html(String['format']("<div id='{0}' style='width:{1};height:{2}' /></div>", 'embedded-feed', width, height));
+            var embedOptions = {
+                container: "#embedded-feed",
+                network: properties["Network"],
+                feedType: properties["FeedType"],
+                feedId: properties["FeedId"],
+                config: {
+                    header: header,
+                    footer: footer,
+                    promptText: promptText
+                }
+            };
+            console.log(embedOptions);
             jQuery.getScript('https://assets.yammer.com/assets/platform_embed.js', function () {
-                yam.connect.embedFeed({
-                    container: "#embedded-feed",
-                    network: properties["Network"],
-                    feedType: properties["FeedType"],
-                    feedId: properties["FeedId"]
-                });
+                yam.connect.embedFeed(embedOptions);
             });
         }
         Test.YammerEmbed = YammerEmbed;
