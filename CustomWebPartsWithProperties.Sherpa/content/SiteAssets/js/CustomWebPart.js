@@ -130,12 +130,6 @@ var CustomWebPart;
             WebPart.prototype.render = function () {
                 Manager.Render(this);
             };
-            WebPart.prototype.printProperties = function () {
-                Manager.PrintProperties(this);
-            };
-            WebPart.prototype.delete = function () {
-                Manager.Delete(this);
-            };
             return WebPart;
         })();
         Model.WebPart = WebPart;
@@ -160,15 +154,6 @@ var CustomWebPart;
                 Model.WebParts[i].render();
             }
         }
-        function DeleteAllWebParts() {
-            for (var i in Model.WebParts) {
-                Model.WebParts[i].delete();
-            }
-            window.setTimeout(function () {
-                location.href = location.href;
-            }, 3000);
-        }
-        Manager.DeleteAllWebParts = DeleteAllWebParts;
         function Render(webpart) {
             if (!Util.InEditMode()) {
                 try {
@@ -183,31 +168,6 @@ var CustomWebPart;
             }
         }
         Manager.Render = Render;
-        function Delete(webpart) {
-            var clientContext = new SP.ClientContext(_spPageContextInfo.webAbsoluteUrl);
-            var oFile = clientContext.get_web().getFileByServerRelativeUrl(_spPageContextInfo.serverRequestPath);
-            var limitedWebPartManager = oFile.getLimitedWebPartManager(SP.WebParts.PersonalizationScope.shared);
-            var webPartDefinition = limitedWebPartManager.get_webParts().getById(new SP.Guid(webpart.id[0]));
-            webPartDefinition.deleteWebPart();
-            clientContext.load(webPartDefinition);
-            clientContext.executeQueryAsync(function () {
-                console.log(String['format']("Webpart with ID '{0}' deleted.", webpart.id[0]));
-            });
-        }
-        Manager.Delete = Delete;
-        function PrintProperties(webpart) {
-            var clientContext = new SP.ClientContext(_spPageContextInfo.webAbsoluteUrl);
-            var oFile = clientContext.get_web().getFileByServerRelativeUrl(_spPageContextInfo.serverRequestPath);
-            var limitedWebPartManager = oFile.getLimitedWebPartManager(SP.WebParts.PersonalizationScope.shared);
-            var webPartDefinition = limitedWebPartManager.get_webParts().getById(new SP.Guid(webpart.id[0]));
-            var webPart = webPartDefinition.get_webPart();
-            clientContext.load(webPart);
-            clientContext.load(webPart.get_properties());
-            clientContext.executeQueryAsync(function () {
-                console.log(webPart.get_properties().get_fieldValues());
-            });
-        }
-        Manager.PrintProperties = PrintProperties;
     })(Manager = CustomWebPart.Manager || (CustomWebPart.Manager = {}));
 })(CustomWebPart || (CustomWebPart = {}));
 jQuery(function () {
