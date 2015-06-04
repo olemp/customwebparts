@@ -4,30 +4,59 @@ var CustomWebPart;
 (function (CustomWebPart) {
     var Test;
     (function (Test) {
+        function YammerEmbedAction(webpart) {
+            var properties = webpart.properties[0];
+            if (properties["Network"] && ["Action"]) {
+                webpart.instance.html(String['format']("<div id='{0}' /></div>", 'embedded-feed'));
+                var embedOptions = {
+                    container: "#embedded-feed",
+                    network: properties["Network"],
+                    action: properties["Action"]
+                };
+                jQuery.getScript('https://assets.yammer.com/assets/platform_embed.js', function () {
+                    yam.connect.actionButton(embedOptions);
+                });
+            }
+            else {
+                console.log("You need to specify Network Action for the yammer embed webpart.");
+            }
+        }
+        Test.YammerEmbedAction = YammerEmbedAction;
         function YammerEmbed(webpart) {
             var properties = webpart.properties[0];
-            var width = properties["Width"] || "400px";
-            var height = properties["Height"] || "800px";
-            var promptText = properties["PromptText"] || "Say something..";
-            var header = properties["Header"] ? properties["Header"] == "true" : false;
-            var footer = properties["Footer"] ? properties["Footer"] == "true" : false;
-            console.log(properties);
-            webpart.instance.html(String['format']("<div id='{0}' style='width:{1};height:{2}' /></div>", 'embedded-feed', width, height));
-            var embedOptions = {
-                container: "#embedded-feed",
-                network: properties["Network"],
-                feedType: properties["FeedType"],
-                feedId: properties["FeedId"],
-                config: {
-                    header: header,
-                    footer: footer,
-                    promptText: promptText
+            if (properties["Network"] && ["FeedType"] && ["FeedId"]) {
+                var width = properties["Width"] || "400px";
+                var height = properties["Height"] || "800px";
+                var promptText = properties["PromptText"] || "Say something..";
+                var header = properties["Header"] ? properties["Header"] == "true" : false;
+                var footer = properties["Footer"] ? properties["Footer"] == "true" : false;
+                webpart.instance.html(String['format']("<div id='{0}' style='width:{1};height:{2}' /></div>", 'embedded-feed', width, height));
+                var embedOptions = {
+                    container: "#embedded-feed",
+                    network: properties["Network"],
+                    feedType: properties["FeedType"],
+                    feedId: properties["FeedId"],
+                    config: {
+                        header: header,
+                        footer: footer,
+                        promptText: promptText
+                    }
+                };
+                if (properties["OverrideObjectProperties"] == "true") {
+                    embedOptions["objectProperties"] = {
+                        type: "page",
+                        title: _spPageContextInfo.webTitle,
+                        description: "",
+                        image: "https://mug0.assets-yammer.com/mugshot/images/128x128/FvM5Sp1j7bXl-N9HvKKLjqZ44BCFPxGL"
+                    };
                 }
-            };
-            console.log(embedOptions);
-            jQuery.getScript('https://assets.yammer.com/assets/platform_embed.js', function () {
-                yam.connect.embedFeed(embedOptions);
-            });
+                jQuery.getScript('https://assets.yammer.com/assets/platform_embed.js', function () {
+                    yam.connect.embedFeed(embedOptions);
+                });
+            }
+            else {
+                console.log("You need to specify Network, Feed Type and Feed ID for the yammer embed webpart.");
+            }
         }
         Test.YammerEmbed = YammerEmbed;
         function Subwebs(webpart) {
@@ -105,6 +134,37 @@ var CustomWebPart;
             });
         }
         Test.Permissions = Permissions;
+        function ExternalUsers(webpart) {
+            var properties = webpart.properties[0];
+            jQuery.ajax({
+                url: String['format']("{0}/_api/web/RoleAssignments?$expand=Member,Member/Users,RoleDefinitionBindings", _spPageContextInfo.webAbsoluteUrl),
+                type: 'get',
+                headers: {
+                    'accept': 'application/json;odata=verbose'
+                },
+                success: function (d) {
+                    var stringBuilder = [];
+                    stringBuilder.push("<ul>");
+                    jQuery.each(d.d.results, function (id, val) {
+                        if (val.Member.LoginName.indexOf("#ext#") != -1) {
+                            console.log(val);
+                            stringBuilder.push(String['format']("<li>{0}</li>", val.Member.Title));
+                        }
+                        if (val.Member.Users && val.Member.Users.results && val.Member.Users.results.length > 0) {
+                            jQuery.each(val.Member.Users.results, function (id, user) {
+                                if (user.LoginName.indexOf("#ext#") != -1) {
+                                    console.log(val);
+                                    stringBuilder.push(String['format']("<li>{0} has {1}</li>", user.Title, val.RoleDefinitionBindings.results[0].Name));
+                                }
+                            });
+                        }
+                    });
+                    stringBuilder.push("<ul>");
+                    webpart.instance.html(stringBuilder.join(''));
+                }
+            });
+        }
+        Test.ExternalUsers = ExternalUsers;
         /* PermissionsWithCSS */
         /* REQUIRED: [CSS] */
         function PermissionsWithCSS(webpart) {

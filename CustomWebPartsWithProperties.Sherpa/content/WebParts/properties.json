@@ -60,6 +60,30 @@
         "Url": "Yammer Embed.webpart",
 		"Properties": {
 			"Title": "Yammer Embed",
+			"Group": "Social Collaboration"
+		}
+    },
+	{
+        "Path": "Yammer Embed Experiment.webpart",
+        "Url": "Yammer Embed Experiment.webpart",
+		"Properties": {
+			"Title": "Yammer Embed Experiment",
+			"Group": "Social Collaboration"
+		}
+    },
+	{
+        "Path": "Yammer Embed Action.webpart",
+        "Url": "Yammer Embed Action.webpart",
+		"Properties": {
+			"Title": "Yammer Embed Action",
+			"Group": "Social Collaboration"
+		}
+    },
+	{
+        "Path": "External Users.webpart",
+        "Url": "External Users.webpart",
+		"Properties": {
+			"Title": "External Users",
 			"Group": "Puzzlepart Custom"
 		}
     }

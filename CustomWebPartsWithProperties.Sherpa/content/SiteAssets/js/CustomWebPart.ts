@@ -30,7 +30,9 @@ module CustomWebPart {
                 var key = Object.keys(properties)[i];
                 var $input = jQuery("input.UserInput[name*='EditorZone'][name*='" + key + "'], select.UserSelect[name*='EditorZone'][name*='" + key + "']");
 
-                switch ($input.prop("tagName")) {
+                var elementType = $input.prop("tagName");
+
+                switch (elementType) {
                     case "INPUT": {
                         switch ($input.attr("type")) {
                             case "text": properties[key] = $input.val();
@@ -116,9 +118,9 @@ module CustomWebPart {
             render() {
                 Manager.Render(this);
             }
-            //move(zoneID : string, zoneIndex : number) {
-            //    Manager.Move(this, zoneID, zoneIndex);
-            //}
+            printProperties() {
+                Manager.PrintProperties(this);
+            }
             delete() {
                 Manager.Delete(this);
             }
@@ -184,21 +186,21 @@ module CustomWebPart {
                 console.log(String['format']("Webpart with ID '{0}' deleted.", webpart.id[0]));
             });
         }
-        //export function Move(webpart: Model.WebPart, zoneID : string, zoneIndex : number) {
-        //    var clientContext = new SP.ClientContext(_spPageContextInfo.webAbsoluteUrl);
-        //    var oFile = clientContext.get_web().getFileByServerRelativeUrl(_spPageContextInfo.serverRequestPath);
+        export function PrintProperties(webpart: Model.WebPart) {
+            var clientContext = new SP.ClientContext(_spPageContextInfo.webAbsoluteUrl);
+            var oFile = clientContext.get_web().getFileByServerRelativeUrl(_spPageContextInfo.serverRequestPath);
 
-        //    var limitedWebPartManager = oFile.getLimitedWebPartManager(SP.WebParts.PersonalizationScope.shared);
-        //    var webPartDefinition = limitedWebPartManager.get_webParts().getById(new SP.Guid(webpart.id[0]));
+            var limitedWebPartManager = oFile.getLimitedWebPartManager(SP.WebParts.PersonalizationScope.shared);
+            var webPartDefinition = limitedWebPartManager.get_webParts().getById(new SP.Guid(webpart.id[0]));
+            var webPart = webPartDefinition.get_webPart();
 
-        //    webPartDefinition.moveWebPartTo(zoneID, zoneIndex);
+            clientContext.load(webPart);
+            clientContext.load(webPart.get_properties());
 
-        //    clientContext.load(webPartDefinition);
-
-        //    clientContext.executeQueryAsync(function () {
-        //        console.log(String['format']("Webpart with ID '{0}' moved to zone {1} with index {2}.", webpart.id[0], zoneID, zoneIndex));
-        //    });
-        //}
+            clientContext.executeQueryAsync(function () {
+                console.log(webPart.get_properties().get_fieldValues());
+            });
+        }
     }
 }
 

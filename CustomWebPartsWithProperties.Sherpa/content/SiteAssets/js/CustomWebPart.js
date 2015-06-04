@@ -32,7 +32,8 @@ var CustomWebPart;
             for (var i = 0; i < Object.keys(properties).length; i++) {
                 var key = Object.keys(properties)[i];
                 var $input = jQuery("input.UserInput[name*='EditorZone'][name*='" + key + "'], select.UserSelect[name*='EditorZone'][name*='" + key + "']");
-                switch ($input.prop("tagName")) {
+                var elementType = $input.prop("tagName");
+                switch (elementType) {
                     case "INPUT":
                         {
                             switch ($input.attr("type")) {
@@ -129,9 +130,9 @@ var CustomWebPart;
             WebPart.prototype.render = function () {
                 Manager.Render(this);
             };
-            //move(zoneID : string, zoneIndex : number) {
-            //    Manager.Move(this, zoneID, zoneIndex);
-            //}
+            WebPart.prototype.printProperties = function () {
+                Manager.PrintProperties(this);
+            };
             WebPart.prototype.delete = function () {
                 Manager.Delete(this);
             };
@@ -194,6 +195,19 @@ var CustomWebPart;
             });
         }
         Manager.Delete = Delete;
+        function PrintProperties(webpart) {
+            var clientContext = new SP.ClientContext(_spPageContextInfo.webAbsoluteUrl);
+            var oFile = clientContext.get_web().getFileByServerRelativeUrl(_spPageContextInfo.serverRequestPath);
+            var limitedWebPartManager = oFile.getLimitedWebPartManager(SP.WebParts.PersonalizationScope.shared);
+            var webPartDefinition = limitedWebPartManager.get_webParts().getById(new SP.Guid(webpart.id[0]));
+            var webPart = webPartDefinition.get_webPart();
+            clientContext.load(webPart);
+            clientContext.load(webPart.get_properties());
+            clientContext.executeQueryAsync(function () {
+                console.log(webPart.get_properties().get_fieldValues());
+            });
+        }
+        Manager.PrintProperties = PrintProperties;
     })(Manager = CustomWebPart.Manager || (CustomWebPart.Manager = {}));
 })(CustomWebPart || (CustomWebPart = {}));
 jQuery(function () {
