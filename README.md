@@ -1,6 +1,5 @@
-# Project CustomWebPartsWithProperties
+# CustomWebPartsWithProperties
 This project just includes CustomActions for jQuery and the WebPart JS files
-## test
 
 # CustomWebPartsWithProperties.Sherpa
 Look to the content folder.
