@@ -11,7 +11,7 @@
         <property name="Hidden" type="bool">False</property>
         <property name="Description" type="string">Yammer embedding</property>
         <property name="Content" type="string">&lt;div class="custom-webpart" data-webpart-properties=&#39;[{ &quot;Network&quot;: &quot;olempdev003.onmicrosoft.com&quot;,	&quot;FeedType&quot;: &quot;group,open-graph&quot;, &quot;FeedId&quot;: &quot;all&quot;, &quot;PromptText&quot;: &quot;Say something..&quot;, &quot;Header&quot;: &quot;true&quot;, &quot;Footer&quot;: &quot;false&quot;, &quot;Width&quot;: &quot;&quot;, &quot;Height&quot;: &quot;&quot; }]&#39; data-webpart-choices=&#39;{ &quot;FeedType&quot;: &quot;group,open-graph&quot; }&#39; data-webpart-renderfunction="CustomWebPart.Test.YammerEmbed"&gt;&lt;/div&gt;</property>
-        <property name="CatalogIconImageUrl" type="string">https://harmon.ie/sites/default/files/harmonie-doc/images-email/yammer-16.png</property>
+        <property name="CatalogIconImageUrl" type="string"></property>
         <property name="Title" type="string">Yammer Embed</property>
         <property name="AllowHide" type="bool">False</property>
         <property name="AllowMinimize" type="bool">True</property>

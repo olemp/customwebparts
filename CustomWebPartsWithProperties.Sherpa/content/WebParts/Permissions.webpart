@@ -11,7 +11,7 @@
         <property name="Hidden" type="bool">False</property>
         <property name="Description" type="string">A custom webpart that displays users with access to the current web</property>
         <property name="Content" type="string">&lt;div class="custom-webpart" data-webpart-properties="[{&amp;quot;List&amp;quot;:&amp;quot;Announcements&amp;quot;,&amp;quot;ItemsCount&amp;quot;:&amp;quot;5&amp;quot;}]" data-webpart-renderfunction="CustomWebPart.Test.Permissions"&gt;&lt;/div&gt;</property>
-        <property name="CatalogIconImageUrl" type="string">/sites/customwebparts001/SiteAssets/customwebparts/img/wp/permissions.png</property>
+        <property name="CatalogIconImageUrl" type="string"></property>
         <property name="Title" type="string">Permssions</property>
         <property name="AllowHide" type="bool">True</property>
         <property name="AllowMinimize" type="bool">True</property>

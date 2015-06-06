@@ -94,5 +94,21 @@
 			"Title": "Search Table",
 			"Group": "Puzzlepart Custom"
 		}
+    },
+	{
+        "Path": "SearchTableExtended.webpart",
+        "Url": "SearchTableExtended.webpart",
+		"Properties": {
+			"Title": "Search Table Extended",
+			"Group": "Puzzlepart Custom"
+		}
+    },
+	{
+        "Path": "DeleteableWebPart.webpart",
+        "Url": "DeleteableWebPart.webpart",
+		"Properties": {
+			"Title": "Deleteable WebPart",
+			"Group": "Puzzlepart Custom"
+		}
     }
 ]
