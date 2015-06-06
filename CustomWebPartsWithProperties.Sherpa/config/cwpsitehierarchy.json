@@ -3,12 +3,22 @@
     "ContentTypeConfigurations": [],
     "TaxonomyConfigurations": [],
     "SearchConfigurations": [],
-    "SandboxedSolutions": [
-        "CustomWebPartsWithProperties.wsp"
-    ],
-	"PermissionLevels": [
-    	
-    ],
+    "SandboxedSolutions": [],
+	"CustomActions": [
+		{
+			"ScriptSrc": "~sitecollection/SiteAssets/customwebparts/js/jquery-2.1.4.min.js",
+			"Location": "ScriptLink"
+		},
+		{
+			"ScriptSrc": "~sitecollection/SiteAssets/customwebparts/js/CustomWebPart.js",
+			"Location": "ScriptLink"
+		},
+		{
+			"ScriptSrc": "~sitecollection/SiteAssets/customwebparts/js/CustomWebPart.Test.js",
+			"Location": "ScriptLink"
+		}
+	],
+	"PermissionLevels": [],
     "SiteFeatures": [],
     "Rootweb": {
         "ContentFolders": [
