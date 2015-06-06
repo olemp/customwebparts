@@ -157,7 +157,6 @@ var CustomWebPart;
                     eval(webpart.renderfunction + "(webpart)");
                 }
                 catch (e) {
-                    Util.Error(e.get_message());
                     Util.Error("The render function for one of the webparts doesn't exist, or has a syntax error.");
                 }
             }
