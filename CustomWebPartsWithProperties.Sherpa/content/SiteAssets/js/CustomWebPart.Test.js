@@ -61,6 +61,53 @@ var CustomWebPart;
             });
         }
         Test.SearchTable = SearchTable;
+        function SearchTableExtended(webpart) {
+            var properties = webpart.properties[0];
+            var searchQuery = properties["Query"];
+            if (properties["OnlyListItems"] === "true") {
+                searchQuery += " contentclass:STS_ListItem";
+            }
+            if (properties["OnlyDocuments"] === "true") {
+                searchQuery += " IsDocument:True";
+            }
+            var managedProperties = properties["Properties"];
+            var rowLimit = properties["RowLimit"] || 10;
+            Util.search(searchQuery, managedProperties, rowLimit, 0, null).done(function (results) {
+                jQuery("head").append(String['format']("<link rel='stylesheet' type='text/css' href='{0}' />", "//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css"));
+                var managedPropertiesArray = managedProperties.split(",");
+                console.log(managedPropertiesArray);
+                var items = [];
+                results.forEach(function (val) {
+                    var item = {};
+                    for (var i = 0; i < managedPropertiesArray.length; i++) {
+                        var mp = managedPropertiesArray[i];
+                        item[mp] = jQuery.grep(val.Cells, function (cell) {
+                            return cell["Key"] === mp;
+                        })[0]["Value"];
+                    }
+                    items.push(item);
+                });
+                var header = ["<th>", managedPropertiesArray.join("</th><th>"), "</th>"].join("");
+                var body = "";
+                items.forEach(function (itm) {
+                    var itemValues = "";
+                    Object.keys(itm).forEach(function (key) {
+                        itemValues += ["<td>", itm[key], "</td>"].join("");
+                    });
+                    body += [
+                        "<tr>",
+                        itemValues,
+                        "</tr>"
+                    ].join("");
+                });
+                webpart.instance.html(["<table id='search-table-extended' style='display:none;'>", "<thead>", "<tr>", header, "</tr>", "</thead>", "<tbody>", body, "</tbody>", "</table>"].join(""));
+                jQuery.getScript('//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js', function () {
+                    $('#search-table-extended')['DataTable']();
+                    $('#search-table-extended').show();
+                });
+            });
+        }
+        Test.SearchTableExtended = SearchTableExtended;
         function YammerEmbedAction(webpart) {
             var properties = webpart.properties[0];
             if (properties["Network"] && ["Action"]) {
@@ -277,5 +324,21 @@ var CustomWebPart;
             });
         }
         Test.CalendarItems = CalendarItems;
+        var Util;
+        (function (Util) {
+            function search(queryText, managedProperties, rowLimit, startRow, allResults) {
+                var allResults = allResults || [];
+                var url = String['format']("{0}/_api/search/query?querytext='{1}'&rowlimit={2}&startrow={3}&selectproperties='{4}'&trimduplicates=false", _spPageContextInfo.webAbsoluteUrl, queryText, rowLimit, startRow, managedProperties);
+                return $.getJSON(url).then(function (data) {
+                    var relevantResults = data.PrimaryQueryResult.RelevantResults;
+                    allResults = allResults.concat(relevantResults.Table.Rows);
+                    if (relevantResults.TotalRows > startRow + relevantResults.RowCount) {
+                        return search(queryText, managedProperties, rowLimit, startRow + relevantResults.RowCount, allResults);
+                    }
+                    return allResults;
+                });
+            }
+            Util.search = search;
+        })(Util || (Util = {}));
     })(Test = CustomWebPart.Test || (CustomWebPart.Test = {}));
 })(CustomWebPart || (CustomWebPart = {}));
