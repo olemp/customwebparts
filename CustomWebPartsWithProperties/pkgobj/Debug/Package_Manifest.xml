@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Solution xmlns="http://schemas.microsoft.com/sharepoint/" SolutionId="a598eb28-2739-4655-b99f-8a831e58698d" SharePointProductVersion="15.0">
-  <Assemblies>
-    <Assembly Location="CustomWebPartsWithProperties.dll" DeploymentTarget="GlobalAssemblyCache" />
-  </Assemblies>
-  <FeatureManifests>
-    <FeatureManifest Location="CustomWebPartsWithProperties_SiteCustomActions\Feature.xml" />
-  </FeatureManifests>
-</Solution>

@@ -1,4 +1,0 @@
-C:\Users\OleMartin\Documents\Bitbucket\CustomWebPartsWithProperties\CustomWebPartsWithProperties\bin\Debug\CustomWebPartsWithProperties.dll
-C:\Users\OleMartin\Documents\Bitbucket\CustomWebPartsWithProperties\CustomWebPartsWithProperties\bin\Debug\CustomWebPartsWithProperties.pdb
-C:\Users\OleMartin\Documents\Bitbucket\CustomWebPartsWithProperties\CustomWebPartsWithProperties\obj\Debug\CustomWebPartsWithProperties.dll
-C:\Users\OleMartin\Documents\Bitbucket\CustomWebPartsWithProperties\CustomWebPartsWithProperties\obj\Debug\CustomWebPartsWithProperties.pdb
