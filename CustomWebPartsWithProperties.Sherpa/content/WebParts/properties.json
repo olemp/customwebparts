@@ -86,5 +86,13 @@
 			"Title": "External Users",
 			"Group": "Puzzlepart Custom"
 		}
+    },
+	{
+        "Path": "SearchTable.webpart",
+        "Url": "SearchTable.webpart",
+		"Properties": {
+			"Title": "Search Table",
+			"Group": "Puzzlepart Custom"
+		}
     }
 ]

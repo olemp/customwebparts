@@ -95,9 +95,6 @@ module CustomWebPart {
 
 
                     var $submit = jQuery("input[type='submit'][name*='OKBtn'], input[type='submit'][name*='AppBtn']");
-                    // Used to debug saving of properties
-                    //$submit.attr("type", "button");
-                    //$submit.attr("onclick", "");
                     $submit.click(function (event, args) {
                         GetHiddenInputFieldForWebPart(webpart.id[1]).val(GetUpdatedWebPartHtml(webpart.instance));
                     });
@@ -153,6 +150,7 @@ module CustomWebPart {
                 try {
                     eval(webpart.renderfunction + "(webpart)");
                 } catch (e) {
+                    Util.Error(e.get_message());
                     Util.Error("The render function for one of the webparts doesn't exist, or has a syntax error.");
                 }
             } else {

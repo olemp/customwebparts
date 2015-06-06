@@ -46,6 +46,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="config\cwpsitehierarchy.json" />
+    <None Include="content\WebParts\SearchTable.webpart" />
     <None Include="content\WebParts\Yammer Embed.webpart" />
     <None Include="content\WebParts\Calendar Items.webpart" />
     <None Include="content\WebParts\List Items.webpart" />
@@ -64,7 +65,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="content\SiteAssets\html\custompropertiespane.txt" />
+    <Content Include="content\SiteAssets\html\customproperties.txt" />
     <Content Include="content\SiteAssets\js\jquery-2.1.4.min.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

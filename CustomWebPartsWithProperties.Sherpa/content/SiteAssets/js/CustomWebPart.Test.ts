@@ -5,6 +5,84 @@ declare var yam;
 
 
 module CustomWebPart.Test {
+    export function SearchTable(webpart: Model.WebPart) {
+        var properties = webpart.properties[0];
+
+        var searchQuery = properties["Query"];
+
+        if (properties["OnlyListItems"] === "true") {
+            searchQuery += " contentclass:STS_ListItem";
+        }
+        if (properties["OnlyDocuments"] === "true") {
+            searchQuery += " IsDocument:True";
+        }
+
+        var managedProperties = properties["Properties"];
+        var rowLimit = properties["RowLimit"] || 10;
+
+        jQuery.ajax({
+            url: String['format']("{0}/_api/search/query?querytext='{1}'&selectproperties='{2}'&rowlimit={3}", _spPageContextInfo.webAbsoluteUrl, searchQuery, managedProperties, rowLimit),
+            type: "get",
+            headers: {
+                "Accept": "application/json;odata=nometadata"
+            },
+            success: function (d) {
+                jQuery("head").append(String['format']("<link rel='stylesheet' type='text/css' href='{0}' />", "//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css"));
+
+                var results = d.PrimaryQueryResult.RelevantResults.Table.Rows;
+                var managedPropertiesArray = managedProperties.split(",");
+
+                var items = [];
+
+                results.forEach(function (val, id) {
+                    var item = {};
+                    for (var i = 0; i < managedPropertiesArray.length; i++) {
+                        var mp = managedPropertiesArray[i];
+
+                        item[mp] = jQuery.grep(val.Cells, function(cell) {
+                            return cell["Key"] === mp;
+                        })[0]["Value"];
+                    }
+                    items.push(item);
+                });
+
+                var header = ["<th>", managedPropertiesArray.join("</th><th>"), "</th>"].join("");
+                var body = "";
+                items.forEach(function (itm) {
+                    var itemValues = "";
+                    Object.keys(itm).forEach(function(key) {
+                        itemValues += ["<td>", itm[key], "</td>"].join("");
+                    });
+
+                    body += [
+                        "<tr>",
+                            itemValues,
+                        "</tr>"
+                    ].join("");
+                });
+
+
+                webpart.instance.html(["<table id='search-table' style='display:none;'>",          
+                    "<thead>",
+                    "<tr>",
+                    header,
+                    "</tr>",
+                    "</thead>",
+                    "<tbody>",
+                    body,
+                    "</tbody>",    
+                "</table>"].join(""));
+
+                jQuery.getScript('//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js', function() {
+                    $('#search-table')['DataTable']();
+                    $('#search-table').show();
+                });
+            },
+            error: function(sender, args) {
+                console.log(args);
+            }
+        });
+    }
     export function YammerEmbedAction(webpart: Model.WebPart) {
         var properties = webpart.properties[0];
 
@@ -156,14 +234,12 @@ module CustomWebPart.Test {
                 stringBuilder.push("<ul>");
                 jQuery.each(d.d.results, function (id, val) {
                     if (val.Member.LoginName.indexOf("#ext#") != -1) {
-                        console.log(val);
                         stringBuilder.push(String['format']("<li>{0}</li>", val.Member.Title));
                     }
 
                     if (val.Member.Users && val.Member.Users.results && val.Member.Users.results.length > 0) {
                         jQuery.each(val.Member.Users.results, function (id, user) {
                             if (user.LoginName.indexOf("#ext#") != -1) {
-                                console.log(val);
                                 stringBuilder.push(String['format']("<li>{0} has {1}</li>", user.Title, val.RoleDefinitionBindings.results[0].Name));
                             }
                         });
