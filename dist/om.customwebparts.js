@@ -51,11 +51,15 @@ var OM;
                 return $('<div>').append(instance.clone()).html();
             }
             function Log(message) {
-                console.info(message);
+                if (window.hasOwnProperty("console") && window.console.info) {
+                    console.info(message);
+                }
             }
             Util.Log = Log;
             function Error(message) {
-                console.error(message);
+                if (window.hasOwnProperty("console") && window.console.error) {
+                    console.error(message);
+                }
             }
             Util.Error = Error;
             function InEditMode() {

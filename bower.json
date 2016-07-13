@@ -4,6 +4,7 @@
   "main": [
     "dist/customproperties.txt",
     "dist/om.customwebparts.js",
+    "dist/om.customwebparts.min.js",
     "dist/om.customwebparts.d.ts"
   ],
   "authors": [
