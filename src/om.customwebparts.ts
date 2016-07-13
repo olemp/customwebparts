@@ -2,17 +2,17 @@
 
 namespace OM.CustomWebParts {
     namespace Util {
-        export function GetWebPartsDefinitions() {
+        export function GetWebPartsDefinitions(): JQuery {
             return jQuery(Properties.WebPartClass);
         }
-        export function ReplaceAll(str: string, f: string, r: string) {
+        export function ReplaceAll(str: string, f: string, r: string): string {
             return str ? str.replace(new RegExp(f, '\g'), r) : "";
         }
-        export function GetToolPaneForWebPart(webpartid: string) {
-            return jQuery(".ms-TPBody[id*='" + ReplaceAll(webpartid, '-', '_') + "']").first();
+        export function GetToolPaneForWebPart(webpartid: string): JQuery {
+            return jQuery(`.ms-TPBody[id*='${ReplaceAll(webpartid, '-', '_')}']`).first();
         }
-        export function GetHiddenInputFieldForWebPart(webpartid: string) {
-            return jQuery(".aspNetHidden input[name*='" + webpartid + "']");
+        export function GetHiddenInputFieldForWebPart(webpartid: string): JQuery {
+            return jQuery(`.aspNetHidden input[name*='${webpartid}']`);
         }
         function GetSelectOptionsFromArray(options: Array<string>, defaultValue: string): string {
             return options.map(o => String['format']("<option{0}>{1}</option>", (o == defaultValue) ? " selected" : "", o)).join("");
