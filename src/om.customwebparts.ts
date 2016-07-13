@@ -1,8 +1,5 @@
-﻿/// <reference path="SharePoint.d.ts" />
-/// <reference path="jquery.d.ts" />
-
-module CustomWebPart {
-    module Util {
+﻿namespace OM.CustomWebParts {
+    namespace Util {
         export function GetWebPartsDefinitions() {
             return jQuery(Properties.WebPartClass);
         }
@@ -158,8 +155,3 @@ module CustomWebPart {
         }
     }
 }
-
-
-jQuery(function () {
-    CustomWebPart.Manager.Init();
-});

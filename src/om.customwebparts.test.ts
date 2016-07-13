@@ -1,10 +1,4 @@
-﻿/// <reference path="SharePoint.d.ts" />
-/// <reference path="jquery.d.ts" />
-
-declare var yam;
-
-
-module CustomWebPart.Test {
+﻿namespace OM.CustomWebParts.Test {
     export function SearchTable(webpart: Model.WebPart) {
         var properties = webpart.properties[0];
 

@@ -1,0 +1,19 @@
+{
+  "name": "customwebparts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olemp/customwebparts.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/olemp/customwebparts/issues"
+  },
+  "homepage": "https://github.com/olemp/customwebparts#readme"
+}
