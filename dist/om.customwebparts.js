@@ -80,29 +80,26 @@ var OM;
                 var $toolPane = GetToolPaneForWebPart(webpart.id[1]);
                 if (Object.keys(properties).length > 0 && $toolPane.length > 0) {
                     jQuery(".ms-rte-embedcode-linkedit").hide();
-                    jQuery.getJSON(_spPageContextInfo.siteAbsoluteUrl + Properties.HtmlRootPath + "customproperties.txt", function (d) {
-                        var props = [];
-                        for (var i = 0; i < Object.keys(properties).length; i++) {
-                            var key = Object.keys(properties)[i];
-                            var value = properties[key];
-                            if (webpart.instance.data("webpart-choices") != null && webpart.instance.data("webpart-choices")[key] != null) {
-                                var options = GetSelectOptionsFromArray(webpart.instance.data("webpart-choices")[key].split(","), value);
-                                props.push(String['format'](d.Field_Choice, Util.ReplaceAll(webpart.id[1], '-', '_'), key, options));
+                    var props = [];
+                    for (var i = 0; i < Object.keys(properties).length; i++) {
+                        var key = Object.keys(properties)[i], value = properties[key];
+                        if (webpart.instance.data("webpart-choices") != null && webpart.instance.data("webpart-choices")[key] != null) {
+                            var options = GetSelectOptionsFromArray(webpart.instance.data("webpart-choices")[key].split(","), value);
+                            props.push(String['format'](Templates.Field_Choice, Util.ReplaceAll(webpart.id[1], '-', '_'), key, options));
+                        }
+                        else {
+                            if (value == "true" || value == "false") {
+                                props.push(String['format'](Templates.Field_Boolean, Util.ReplaceAll(webpart.id[1], '-', '_'), key, value == "true" ? "checked" : ""));
                             }
                             else {
-                                if (value == "true" || value == "false") {
-                                    props.push(String['format'](d.Field_Boolean, Util.ReplaceAll(webpart.id[1], '-', '_'), key, value == "true" ? "checked" : ""));
-                                }
-                                else {
-                                    props.push(String['format'](d.Field_String, Util.ReplaceAll(webpart.id[1], '-', '_'), key, value));
-                                }
+                                props.push(String['format'](Templates.Field_String, Util.ReplaceAll(webpart.id[1], '-', '_'), key, value));
                             }
                         }
-                        $toolPane.append(String['format'](d.Container, Util.ReplaceAll(webpart.id[1], '-', '_'), props.join('')));
-                        var $submit = jQuery("input[type='submit'][name*='OKBtn'], input[type='submit'][name*='AppBtn']");
-                        $submit.click(function (event, args) {
-                            GetHiddenInputFieldForWebPart(webpart.id[1]).val(GetUpdatedWebPartHtml(webpart.instance));
-                        });
+                    }
+                    $toolPane.append(String['format'](Templates.Container, Util.ReplaceAll(webpart.id[1], '-', '_'), props.join('')));
+                    var $submit = jQuery("input[type='submit'][name*='OKBtn'], input[type='submit'][name*='AppBtn']");
+                    $submit.click(function (event, args) {
+                        GetHiddenInputFieldForWebPart(webpart.id[1]).val(GetUpdatedWebPartHtml(webpart.instance));
                     });
                 }
             }
@@ -111,7 +108,6 @@ var OM;
         var Properties;
         (function (Properties) {
             Properties.WebPartClass = '.custom-webpart';
-            Properties.HtmlRootPath = "/siteassets/customwebparts/html/";
         })(Properties || (Properties = {}));
         var Model;
         (function (Model) {
@@ -133,6 +129,12 @@ var OM;
             Model.WebPart = WebPart;
             Model.WebParts = [];
         })(Model || (Model = {}));
+        var Templates = {
+            Container: "<div> <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%;border-collapse:collapse;\"> <tbody> <tr> <td><div class=\"UserSectionTitle\"><a id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_IMAGEANCHOR\" href=\"#\" onkeydown=\"WebPartMenuKeyboardClick(this, 13, 32, event);\" style=\"cursor:hand\" onclick=\"javascript:MSOTlPn_ToggleDisplay('ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory', 'ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_IMAGE', 'ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_ANCHOR', 'Expand category: Custom', 'Collapse category: Custom','ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_IMAGEANCHOR'); return false;\" title=\"Expand category: Custom\">&nbsp;<img id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_IMAGE\" alt=\"Expand category: Custom\" border=\"0\" src=\"/_layouts/15/images/TPMax2.gif\">&nbsp;</a><a tabindex=\"-1\" onkeydown=\"WebPartMenuKeyboardClick(this, 13, 32, event);\" id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_ANCHOR\" style=\"cursor:hand\" onclick=\"javascript:MSOTlPn_ToggleDisplay('ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory', 'ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_IMAGE', 'ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_ANCHOR', 'Expand category: Custom', 'Collapse category: Custom','ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_IMAGEANCHOR'); return false;\" title=\"Expand category: Custom\"> &nbsp;Custom</a></div></td> </tr> </tbody> </table><div class=\"ms-propGridTable\" id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory\" style=\"display:none;\"> <table cellspacing=\"0\" style=\"border-width:0px;width:100%;border-collapse:collapse;\"> <tbody>{1}</tbody> </table> </div> </div>",
+            Field_String: "<tr><td><input type=\"hidden\" name=\"ctl00$MSOTlPn_EditorZone$Edit0g_{0}$ctl11${1}_ROWSTATE\" id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_ctl11_{1}_ROWSTATE\" value=\"0\"><div class=\"UserSectionHead\"><label for=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_ctl11_{1}_EDITOR\" title=\"\">{1}</label></div><div class=\"UserSectionBody\"><div class=\"UserControlGroup\"><nobr><input name=\"ctl00$MSOTlPn_EditorZone$Edit0g_{0}$ctl11${1}_EDITOR\" type=\"text\" id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_ctl11_{1}_EDITOR\" class=\"UserInput\" ms-tlpnwiden=\"true\" style=\"width:176px;{1}:ltr;\" value=\"{2}\"></nobr></div></div><div style=\"width:100%\" class=\"UserDottedLine\"></div></td></tr>",
+            "Field_Boolean": "<tr><td><input type=\"hidden\" name=\"ctl00$MSOTlPn_EditorZone$Edit0g_{0}$ctl11${1}_ROWSTATE\" id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_ctl11_{1}_ROWSTATE\" value=\"0\"><div class=\"UserSectionHead\"><span onfocus=\"MSOPGrid_HidePrevBuilder()\"><input id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_ctl11_{1}_EDITOR\" type=\"checkbox\" name=\"ctl00$MSOTlPn_EditorZone$Edit0g_{0}$ctl11${1}_EDITOR\" class=\"UserInput\" {2} onclick=\"MSOPGrid_HidePrevBuilder();\"></span>&nbsp;&nbsp;<label for=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_ctl11_{1}_EDITOR\" title=\"\">{1}</label></div><div style=\"width:100%\" class=\"UserDottedLine\"></div></td></tr>",
+            Field_Choice: "<tr><td><input type=\"hidden\" name=\"ctl00$MSOTlPn_EditorZone$Edit0g_{0}$ctl07${1}_ROWSTATE\" id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_ctl07_{1}_ROWSTATE\" value=\"0\"><div class=\"UserSectionHead\"><label>{1}</label></div><div class=\"UserSectionBody\"><div class=\"UserControlGroup\"><nobr><select name=\"ctl00$MSOTlPn_EditorZone$Edit0g_{0}$ctl07${1}_EDITOR\" id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_ctl07_{1}_EDITOR\" class=\"UserSelect\" onclick=\"MSOPGrid_HidePrevBuilder()\" onfocus=\"MSOPGrid_HidePrevBuilder()\">{2}</select></nobr></div></div><div style=\"width:100%\" class=\"UserDottedLine\"></div></td></tr>"
+        };
         var Manager;
         (function (Manager) {
             function Init() {
