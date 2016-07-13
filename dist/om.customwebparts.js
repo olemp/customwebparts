@@ -101,26 +101,23 @@ var OM;
         (function (Properties) {
             Properties.WebPartClass = '.custom-webpart';
         })(Properties || (Properties = {}));
-        var Model;
-        (function (Model) {
-            var WebPart = (function () {
-                function WebPart(element) {
-                    this.instance = element;
-                    this.id = [
-                        this.instance.parents("div[webpartid]").first().attr("webpartid"),
-                        this.instance.parents("div[webpartid2]").first().length > 0 ? this.instance.parents("div[webpartid2]").first().attr("webpartid2") : this.instance.parents("div[webpartid]").first().attr("webpartid")
-                    ];
-                    this.renderfunction = this.instance.data("webpart-renderfunction");
-                    this.properties = this.instance.data("webpart-properties");
-                }
-                WebPart.prototype.render = function () {
-                    Manager.Render(this);
-                };
-                return WebPart;
-            }());
-            Model.WebPart = WebPart;
-            Model.WebParts = [];
-        })(Model || (Model = {}));
+        var WebPart = (function () {
+            function WebPart(element) {
+                this.instance = element;
+                this.id = [
+                    this.instance.parents("div[webpartid]").first().attr("webpartid"),
+                    this.instance.parents("div[webpartid2]").first().length > 0 ? this.instance.parents("div[webpartid2]").first().attr("webpartid2") : this.instance.parents("div[webpartid]").first().attr("webpartid")
+                ];
+                this.renderfunction = this.instance.data("webpart-renderfunction");
+                this.properties = this.instance.data("webpart-properties");
+            }
+            WebPart.prototype.render = function () {
+                Manager.Render(this);
+            };
+            return WebPart;
+        }());
+        CustomWebParts.WebPart = WebPart;
+        CustomWebParts.WebParts = [];
         var Templates = {
             Container: "<div> <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%;border-collapse:collapse;\"> <tbody> <tr> <td><div class=\"UserSectionTitle\"><a id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_IMAGEANCHOR\" href=\"#\" onkeydown=\"WebPartMenuKeyboardClick(this, 13, 32, event);\" style=\"cursor:hand\" onclick=\"javascript:MSOTlPn_ToggleDisplay('ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory', 'ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_IMAGE', 'ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_ANCHOR', 'Expand category: Custom', 'Collapse category: Custom','ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_IMAGEANCHOR'); return false;\" title=\"Expand category: Custom\">&nbsp;<img id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_IMAGE\" alt=\"Expand category: Custom\" border=\"0\" src=\"/_layouts/15/images/TPMax2.gif\">&nbsp;</a><a tabindex=\"-1\" onkeydown=\"WebPartMenuKeyboardClick(this, 13, 32, event);\" id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_ANCHOR\" style=\"cursor:hand\" onclick=\"javascript:MSOTlPn_ToggleDisplay('ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory', 'ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_IMAGE', 'ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_ANCHOR', 'Expand category: Custom', 'Collapse category: Custom','ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_IMAGEANCHOR'); return false;\" title=\"Expand category: Custom\"> &nbsp;Custom</a></div></td> </tr> </tbody> </table><div class=\"ms-propGridTable\" id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory\" style=\"display:none;\"> <table cellspacing=\"0\" style=\"border-width:0px;width:100%;border-collapse:collapse;\"> <tbody>{1}</tbody> </table> </div> </div>",
             Field_String: "<tr><td><input type=\"hidden\" name=\"ctl00$MSOTlPn_EditorZone$Edit0g_{0}$ctl11${1}_ROWSTATE\" id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_ctl11_{1}_ROWSTATE\" value=\"0\"><div class=\"UserSectionHead\"><label for=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_ctl11_{1}_EDITOR\" title=\"\">{1}</label></div><div class=\"UserSectionBody\"><div class=\"UserControlGroup\"><nobr><input name=\"ctl00$MSOTlPn_EditorZone$Edit0g_{0}$ctl11${1}_EDITOR\" type=\"text\" id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_ctl11_{1}_EDITOR\" class=\"UserInput\" ms-tlpnwiden=\"true\" style=\"width:176px;{1}:ltr;\" value=\"{2}\"></nobr></div></div><div style=\"width:100%\" class=\"UserDottedLine\"></div></td></tr>",
@@ -132,7 +129,7 @@ var OM;
             function Init() {
                 Util.GetWebPartsDefinitions().each(function () {
                     try {
-                        Model.WebParts.push(new Model.WebPart(jQuery(this)));
+                        CustomWebParts.WebParts.push(new WebPart(jQuery(this)));
                     }
                     catch (e) {
                         Util.Error("Error parsing webpart.");
@@ -142,7 +139,7 @@ var OM;
             }
             Manager.Init = Init;
             function RenderAllWebParts() {
-                Model.WebParts.forEach(function (wp) { return wp.Render(); });
+                CustomWebParts.WebParts.forEach(function (wp) { return wp.Render(); });
             }
             function Render(webpart) {
                 if (!Util.InEditMode()) {

@@ -52,7 +52,7 @@ namespace OM.CustomWebParts {
                 return false;
             }
         }
-        export function RenderWebPartProperties(webpart: Model.WebPart): void {
+        export function RenderWebPartProperties(webpart: WebPart): void {
             var properties = webpart.properties[0], $toolPane = GetToolPaneForWebPart(webpart.id[1]);
             if (Object.keys(properties).length > 0 && $toolPane.length > 0) {
                 jQuery(".ms-rte-embedcode-linkedit").hide();
@@ -81,49 +81,47 @@ namespace OM.CustomWebParts {
     namespace Properties {
         export var WebPartClass = '.custom-webpart';
     }
-    namespace Model {
-        export class WebPart {
-            public instance: any;
-            public id: Array<string>;
-            public renderfunction: string;
-            public properties: Array<Object>;
-            public render() {
-                Manager.Render(this);
-            }
-
-            constructor(element: any) {
-                this.instance = element;
-                this.id = [
-                    this.instance.parents("div[webpartid]").first().attr("webpartid"),
-                    this.instance.parents("div[webpartid2]").first().length > 0 ? this.instance.parents("div[webpartid2]").first().attr("webpartid2") : this.instance.parents("div[webpartid]").first().attr("webpartid")
-                ]
-                this.renderfunction = this.instance.data("webpart-renderfunction");
-                this.properties = this.instance.data("webpart-properties");
-            }
+    export class WebPart {
+        public instance: any;
+        public id: Array<string>;
+        public renderfunction: string;
+        public properties: Array<Object>;
+        public render() {
+            Manager.Render(this);
         }
-        export var WebParts = [];
+
+        constructor(element: any) {
+            this.instance = element;
+            this.id = [
+                this.instance.parents("div[webpartid]").first().attr("webpartid"),
+                this.instance.parents("div[webpartid2]").first().length > 0 ? this.instance.parents("div[webpartid2]").first().attr("webpartid2") : this.instance.parents("div[webpartid]").first().attr("webpartid")
+            ]
+            this.renderfunction = this.instance.data("webpart-renderfunction");
+            this.properties = this.instance.data("webpart-properties");
+        }
     }
+    export var WebParts = [];
     var Templates = {
         Container: "<div> <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%;border-collapse:collapse;\"> <tbody> <tr> <td><div class=\"UserSectionTitle\"><a id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_IMAGEANCHOR\" href=\"#\" onkeydown=\"WebPartMenuKeyboardClick(this, 13, 32, event);\" style=\"cursor:hand\" onclick=\"javascript:MSOTlPn_ToggleDisplay('ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory', 'ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_IMAGE', 'ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_ANCHOR', 'Expand category: Custom', 'Collapse category: Custom','ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_IMAGEANCHOR'); return false;\" title=\"Expand category: Custom\">&nbsp;<img id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_IMAGE\" alt=\"Expand category: Custom\" border=\"0\" src=\"/_layouts/15/images/TPMax2.gif\">&nbsp;</a><a tabindex=\"-1\" onkeydown=\"WebPartMenuKeyboardClick(this, 13, 32, event);\" id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_ANCHOR\" style=\"cursor:hand\" onclick=\"javascript:MSOTlPn_ToggleDisplay('ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory', 'ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_IMAGE', 'ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_ANCHOR', 'Expand category: Custom', 'Collapse category: Custom','ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_IMAGEANCHOR'); return false;\" title=\"Expand category: Custom\"> &nbsp;Custom</a></div></td> </tr> </tbody> </table><div class=\"ms-propGridTable\" id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory\" style=\"display:none;\"> <table cellspacing=\"0\" style=\"border-width:0px;width:100%;border-collapse:collapse;\"> <tbody>{1}</tbody> </table> </div> </div>",
         Field_String: "<tr><td><input type=\"hidden\" name=\"ctl00$MSOTlPn_EditorZone$Edit0g_{0}$ctl11${1}_ROWSTATE\" id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_ctl11_{1}_ROWSTATE\" value=\"0\"><div class=\"UserSectionHead\"><label for=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_ctl11_{1}_EDITOR\" title=\"\">{1}</label></div><div class=\"UserSectionBody\"><div class=\"UserControlGroup\"><nobr><input name=\"ctl00$MSOTlPn_EditorZone$Edit0g_{0}$ctl11${1}_EDITOR\" type=\"text\" id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_ctl11_{1}_EDITOR\" class=\"UserInput\" ms-tlpnwiden=\"true\" style=\"width:176px;{1}:ltr;\" value=\"{2}\"></nobr></div></div><div style=\"width:100%\" class=\"UserDottedLine\"></div></td></tr>",
         "Field_Boolean": "<tr><td><input type=\"hidden\" name=\"ctl00$MSOTlPn_EditorZone$Edit0g_{0}$ctl11${1}_ROWSTATE\" id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_ctl11_{1}_ROWSTATE\" value=\"0\"><div class=\"UserSectionHead\"><span onfocus=\"MSOPGrid_HidePrevBuilder()\"><input id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_ctl11_{1}_EDITOR\" type=\"checkbox\" name=\"ctl00$MSOTlPn_EditorZone$Edit0g_{0}$ctl11${1}_EDITOR\" class=\"UserInput\" {2} onclick=\"MSOPGrid_HidePrevBuilder();\"></span>&nbsp;&nbsp;<label for=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_ctl11_{1}_EDITOR\" title=\"\">{1}</label></div><div style=\"width:100%\" class=\"UserDottedLine\"></div></td></tr>",
         Field_Choice: "<tr><td><input type=\"hidden\" name=\"ctl00$MSOTlPn_EditorZone$Edit0g_{0}$ctl07${1}_ROWSTATE\" id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_ctl07_{1}_ROWSTATE\" value=\"0\"><div class=\"UserSectionHead\"><label>{1}</label></div><div class=\"UserSectionBody\"><div class=\"UserControlGroup\"><nobr><select name=\"ctl00$MSOTlPn_EditorZone$Edit0g_{0}$ctl07${1}_EDITOR\" id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_ctl07_{1}_EDITOR\" class=\"UserSelect\" onclick=\"MSOPGrid_HidePrevBuilder()\" onfocus=\"MSOPGrid_HidePrevBuilder()\">{2}</select></nobr></div></div><div style=\"width:100%\" class=\"UserDottedLine\"></div></td></tr>"
     };
-    export module Manager {
-        export function Init() {
+    export namespace Manager {
+        export function Init(): void {
             Util.GetWebPartsDefinitions().each(function () {
                 try {
-                    Model.WebParts.push(new Model.WebPart(jQuery(this)));
+                    WebParts.push(new WebPart(jQuery(this)));
                 } catch (e) {
                     Util.Error("Error parsing webpart.");
                 }
             });
             RenderAllWebParts();
         }
-        function RenderAllWebParts() {
-            Model.WebParts.forEach(wp => wp.Render());
+        function RenderAllWebParts(): void {
+            WebParts.forEach(wp => wp.Render());
         }
-        export function Render(webpart: Model.WebPart) {
+        export function Render(webpart: WebPart): void {
             if (!Util.InEditMode()) {
                 try {
                     eval(`${webpart.renderfunction}(webpart)`);

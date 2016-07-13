@@ -3,7 +3,8 @@
   "description": "",
   "main": [
     "dist/customproperties.txt",
-    "dist/om.customwebparts.js"
+    "dist/om.customwebparts.js",
+    "dist/om.customwebparts.d.ts"
   ],
   "authors": [
     "olemp <olemp@puzzlepart.com>"
