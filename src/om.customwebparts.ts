@@ -14,14 +14,10 @@ namespace OM.CustomWebParts {
         export function GetHiddenInputFieldForWebPart(webpartid: string) {
             return jQuery(".aspNetHidden input[name*='" + webpartid + "']");
         }
-        function GetSelectOptionsFromArray(options: Array<string>, defaultValue: string) {
-            var html = "";
-            options.forEach(function (val, id) {
-                html += String['format']("<option{0}>{1}</option>", (val == defaultValue) ? " selected" : "", val);
-            });
-            return html;
+        function GetSelectOptionsFromArray(options: Array<string>, defaultValue: string): string {
+            return options.map(o => String['format']("<option{0}>{1}</option>", (o == defaultValue) ? " selected" : "", o)).join("");
         }
-        function GetUpdatedWebPartHtml(instance: any) {
+        function GetUpdatedWebPartHtml(instance: any): string {
             var properties = instance.data("webpart-properties")[0];
             Object.keys(properties).forEach(key => {
                 var $input = jQuery(`input.UserInput[name*='EditorZone'][name*='${key}'], select.UserSelect[name*='EditorZone'][name*='${key}']`), elementType = $input.prop("tagName");
