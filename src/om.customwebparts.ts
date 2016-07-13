@@ -19,18 +19,12 @@ namespace OM.CustomWebParts {
             options.forEach(function (val, id) {
                 html += String['format']("<option{0}>{1}</option>", (val == defaultValue) ? " selected" : "", val);
             });
-
             return html;
         }
         function GetUpdatedWebPartHtml(instance: any) {
             var properties = instance.data("webpart-properties")[0];
-
-            for (var i = 0; i < Object.keys(properties).length; i++) {
-                var key = Object.keys(properties)[i];
-                var $input = jQuery("input.UserInput[name*='EditorZone'][name*='" + key + "'], select.UserSelect[name*='EditorZone'][name*='" + key + "']");
-
-                var elementType = $input.prop("tagName");
-
+            Object.keys(properties).forEach(key => {
+                var $input = jQuery(`input.UserInput[name*='EditorZone'][name*='${key}'], select.UserSelect[name*='EditorZone'][name*='${key}']`), elementType = $input.prop("tagName");
                 switch (elementType) {
                     case "INPUT": {
                         switch ($input.attr("type")) {
@@ -44,9 +38,8 @@ namespace OM.CustomWebParts {
                     case "SELECT": properties[key] = $input.val();;
                         break;
                 }
-            }
-            instance.attr("data-webpart-properties", "[" + JSON.stringify(properties) + "]");
-
+            });
+            instance.attr("data-webpart-properties", `[${JSON.stringify(properties)}]`);
             return $('<div>').append(instance.clone()).html();
         }
         export function Log(message: string) {
