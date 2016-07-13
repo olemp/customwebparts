@@ -1,3 +1,4 @@
+/// <reference path="..\typings\main.d.ts" />
 var OM;
 (function (OM) {
     var CustomWebParts;
@@ -111,7 +112,7 @@ var OM;
         (function (Properties) {
             Properties.WebPartClass = '.custom-webpart';
             Properties.HtmlRootPath = "/siteassets/customwebparts/html/";
-        })(Properties = CustomWebParts.Properties || (CustomWebParts.Properties = {}));
+        })(Properties || (Properties = {}));
         var Model;
         (function (Model) {
             var WebPart = (function () {
@@ -131,7 +132,7 @@ var OM;
             }());
             Model.WebPart = WebPart;
             Model.WebParts = [];
-        })(Model = CustomWebParts.Model || (CustomWebParts.Model = {}));
+        })(Model || (Model = {}));
         var Manager;
         (function (Manager) {
             function Init() {
@@ -168,3 +169,6 @@ var OM;
         })(Manager = CustomWebParts.Manager || (CustomWebParts.Manager = {}));
     })(CustomWebParts = OM.CustomWebParts || (OM.CustomWebParts = {}));
 })(OM || (OM = {}));
+ExecuteOrDelayUntilBodyLoaded(function () {
+    ExecuteOrDelayUntilScriptLoaded(OM.CustomWebParts.Manager.Init, "jquery");
+});

@@ -1,0 +1,6 @@
+{
+  "ambientDependencies": {
+    "jquery": "registry:dt/jquery#1.10.0+20160704162008",
+    "sharepoint": "registry:dt/sharepoint#0.0.0+20160602140352"
+  }
+}

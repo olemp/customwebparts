@@ -1,4 +1,6 @@
-﻿namespace OM.CustomWebParts {
+﻿/// <reference path="..\typings\main.d.ts" />
+
+namespace OM.CustomWebParts {
     namespace Util {
         export function GetWebPartsDefinitions() {
             return jQuery(Properties.WebPartClass);
@@ -99,17 +101,17 @@
             }
         }
     }
-    export module Properties {
+    namespace Properties {
         export var WebPartClass = '.custom-webpart';
         export var HtmlRootPath = "/siteassets/customwebparts/html/";
     }
-    export module Model {
+    namespace Model {
         export class WebPart {
-            instance: any;
-            id: Array<string>;
-            renderfunction: string;
-            properties: Array<Object>;
-            render() {
+            public instance: any;
+            public id: Array<string>;
+            public renderfunction: string;
+            public properties: Array<Object>;
+            public render() {
                 Manager.Render(this);
             }
 
@@ -155,3 +157,6 @@
         }
     }
 }
+ExecuteOrDelayUntilBodyLoaded(() => {
+    ExecuteOrDelayUntilScriptLoaded(OM.CustomWebParts.Manager.Init, "jquery");
+});

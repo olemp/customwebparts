@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/olemp/customwebparts/issues"
   },
-  "homepage": "https://github.com/olemp/customwebparts#readme"
+  "homepage": "https://github.com/olemp/customwebparts#readme",
+  "dependencies": {
+    "typings": "^1.3.1"
+  }
 }
