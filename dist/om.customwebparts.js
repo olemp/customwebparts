@@ -162,5 +162,9 @@ var OM;
     })(CustomWebParts = OM.CustomWebParts || (OM.CustomWebParts = {}));
 })(OM || (OM = {}));
 ExecuteOrDelayUntilBodyLoaded(function () {
+    if (!window["_v_dictSod"]["jquery"]) {
+        console.error("You need to have a SOD registered for jQuery, and ensure it's loaded.");
+        return;
+    }
     ExecuteOrDelayUntilScriptLoaded(OM.CustomWebParts.Manager.Init, "jquery");
 });
