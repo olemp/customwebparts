@@ -45,25 +45,20 @@ namespace OM.CustomWebParts {
             console.error(message);
         }
         export function InEditMode() {
-            var formName = (typeof window['MSOWebPartPageFormName'] === "string") ? window['MSOWebPartPageFormName'] : "aspnetForm";
-            var form = window.document.forms[formName];
-
+            var formName = (typeof window['MSOWebPartPageFormName'] === "string") ? window['MSOWebPartPageFormName'] : "aspnetForm", form = window.document.forms[formName];
             if (form && ((form['MSOLayout_InDesignMode'] && form['MSOLayout_InDesignMode'].value) || (typeof window['MSOLayout_IsWikiEditMode'] === "function" && window['MSOLayout_IsWikiEditMode']()))) {
                 return true;
             } else {
                 return false;
             }
         }
-        export function RenderWebPartProperties(webpart: Model.WebPart) {
-            var properties = webpart.properties[0];
-
-            var $toolPane = GetToolPaneForWebPart(webpart.id[1]);
+        export function RenderWebPartProperties(webpart: Model.WebPart): void {
+            var properties = webpart.properties[0], $toolPane = GetToolPaneForWebPart(webpart.id[1]);
             if (Object.keys(properties).length > 0 && $toolPane.length > 0) {
                 jQuery(".ms-rte-embedcode-linkedit").hide();
                 var props = [];
                 for (var i = 0; i < Object.keys(properties).length; i++) {
                     var key = Object.keys(properties)[i], value = properties[key];
-
                     if (webpart.instance.data("webpart-choices") != null && webpart.instance.data("webpart-choices")[key] != null) {
                         var options = GetSelectOptionsFromArray(webpart.instance.data("webpart-choices")[key].split(","), value);
                         props.push(String['format'](Templates.Field_Choice, Util.ReplaceAll(webpart.id[1], '-', '_'), key, options));
@@ -123,18 +118,15 @@ namespace OM.CustomWebParts {
                     Util.Error("Error parsing webpart.");
                 }
             });
-
             RenderAllWebParts();
         }
         function RenderAllWebParts() {
-            for (var i in Model.WebParts) {
-                Model.WebParts[i].render();
-            }
+            Model.WebParts.forEach(wp => wp.Render());
         }
         export function Render(webpart: Model.WebPart) {
             if (!Util.InEditMode()) {
                 try {
-                    eval(webpart.renderfunction + "(webpart)");
+                    eval(`${webpart.renderfunction}(webpart)`);
                 } catch (e) {
                     Util.Error("The render function for one of the webparts doesn't exist, or has a syntax error.");
                 }

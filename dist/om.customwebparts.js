@@ -22,18 +22,12 @@ var OM;
             }
             Util.GetHiddenInputFieldForWebPart = GetHiddenInputFieldForWebPart;
             function GetSelectOptionsFromArray(options, defaultValue) {
-                var html = "";
-                options.forEach(function (val, id) {
-                    html += String['format']("<option{0}>{1}</option>", (val == defaultValue) ? " selected" : "", val);
-                });
-                return html;
+                return options.map(function (o) { return String['format']("<option{0}>{1}</option>", (o == defaultValue) ? " selected" : "", o); }).join("");
             }
             function GetUpdatedWebPartHtml(instance) {
                 var properties = instance.data("webpart-properties")[0];
-                for (var i = 0; i < Object.keys(properties).length; i++) {
-                    var key = Object.keys(properties)[i];
-                    var $input = jQuery("input.UserInput[name*='EditorZone'][name*='" + key + "'], select.UserSelect[name*='EditorZone'][name*='" + key + "']");
-                    var elementType = $input.prop("tagName");
+                Object.keys(properties).forEach(function (key) {
+                    var $input = jQuery("input.UserInput[name*='EditorZone'][name*='" + key + "'], select.UserSelect[name*='EditorZone'][name*='" + key + "']"), elementType = $input.prop("tagName");
                     switch (elementType) {
                         case "INPUT":
                             {
@@ -52,7 +46,7 @@ var OM;
                             ;
                             break;
                     }
-                }
+                });
                 instance.attr("data-webpart-properties", "[" + JSON.stringify(properties) + "]");
                 return $('<div>').append(instance.clone()).html();
             }
@@ -65,8 +59,7 @@ var OM;
             }
             Util.Error = Error;
             function InEditMode() {
-                var formName = (typeof window['MSOWebPartPageFormName'] === "string") ? window['MSOWebPartPageFormName'] : "aspnetForm";
-                var form = window.document.forms[formName];
+                var formName = (typeof window['MSOWebPartPageFormName'] === "string") ? window['MSOWebPartPageFormName'] : "aspnetForm", form = window.document.forms[formName];
                 if (form && ((form['MSOLayout_InDesignMode'] && form['MSOLayout_InDesignMode'].value) || (typeof window['MSOLayout_IsWikiEditMode'] === "function" && window['MSOLayout_IsWikiEditMode']()))) {
                     return true;
                 }
@@ -76,8 +69,7 @@ var OM;
             }
             Util.InEditMode = InEditMode;
             function RenderWebPartProperties(webpart) {
-                var properties = webpart.properties[0];
-                var $toolPane = GetToolPaneForWebPart(webpart.id[1]);
+                var properties = webpart.properties[0], $toolPane = GetToolPaneForWebPart(webpart.id[1]);
                 if (Object.keys(properties).length > 0 && $toolPane.length > 0) {
                     jQuery(".ms-rte-embedcode-linkedit").hide();
                     var props = [];
@@ -150,9 +142,7 @@ var OM;
             }
             Manager.Init = Init;
             function RenderAllWebParts() {
-                for (var i in Model.WebParts) {
-                    Model.WebParts[i].render();
-                }
+                Model.WebParts.forEach(function (wp) { return wp.Render(); });
             }
             function Render(webpart) {
                 if (!Util.InEditMode()) {
