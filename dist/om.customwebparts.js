@@ -1,4 +1,3 @@
-/// <reference path="..\typings\main.d.ts" />
 var OM;
 (function (OM) {
     var CustomWebParts;

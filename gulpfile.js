@@ -17,7 +17,8 @@ gulp.task('ts-compile', function () {
     var tsResult = gulp.src("./src/om.customwebparts.ts")
         .pipe(ts({
             declaration: true,
-            outFile: "om.customwebparts.js"
+            outFile: "om.customwebparts.js",
+            removeComments: true
         }));
     return merge([
         tsResult.dts.pipe(gulp.dest('./dist')),
