@@ -1,3 +1,0 @@
-C:\Users\OleMartin\Documents\Bitbucket\CustomWebPartsWithProperties\CustomWebPartsWithProperties.Sherpa\bin\Debug\CustomWebPartsWithProperties.Sherpa.exe.config
-C:\Users\OleMartin\Documents\Bitbucket\pzl-customwebparts\CustomWebPartsWithProperties.Sherpa\bin\Debug\CustomWebPartsWithProperties.Sherpa.exe.config
-C:\Users\OleMartin\Documents\Bitbucket\pzl-customwebparts\CustomWebPartsWithProperties.Sherpa\obj\Debug\CustomWebPartsWithProperties.Sherpa.csprojResolveAssemblyReference.cache
