@@ -39,10 +39,14 @@ namespace OM.CustomWebParts {
             return $('<div>').append(instance.clone()).html();
         }
         export function Log(message: string) {
-            console.info(message);
+            if (window.hasOwnProperty("console") && window.console.info) {
+                console.info(message);
+            }
         }
         export function Error(message: string) {
-            console.error(message);
+            if (window.hasOwnProperty("console") && window.console.error) {
+                console.error(message);
+            }
         }
         export function InEditMode() {
             var formName = (typeof window['MSOWebPartPageFormName'] === "string") ? window['MSOWebPartPageFormName'] : "aspnetForm", form = window.document.forms[formName];
