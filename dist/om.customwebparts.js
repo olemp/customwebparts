@@ -13,7 +13,8 @@ var OM;
             }
             Util.ReplaceAll = ReplaceAll;
             function GetToolPaneForWebPart(webpartid) {
-                return jQuery(".ms-TPBody[id*='" + ReplaceAll(webpartid, '-', '_') + "']").first();
+                var _wpId = ReplaceAll(webpartid, '-', '_');
+                return jQuery(".ms-TPBody[id*='" + _wpId + "']").first();
             }
             Util.GetToolPaneForWebPart = GetToolPaneForWebPart;
             function GetHiddenInputFieldForWebPart(webpartid) {
@@ -26,8 +27,8 @@ var OM;
             function GetUpdatedWebPartHtml(instance) {
                 var properties = instance.data("webpart-properties")[0];
                 Object.keys(properties).forEach(function (key) {
-                    var $input = jQuery("input.UserInput[name*='EditorZone'][name*='" + key + "'], select.UserSelect[name*='EditorZone'][name*='" + key + "']"), elementType = $input.prop("tagName");
-                    switch (elementType) {
+                    var $input = jQuery("input.UserInput[name*='EditorZone'][name*='" + key + "'], select.UserSelect[name*='EditorZone'][name*='" + key + "']"), eleType = $input.prop("tagName");
+                    switch (eleType) {
                         case "INPUT":
                             {
                                 switch ($input.attr("type")) {
@@ -47,7 +48,7 @@ var OM;
                     }
                 });
                 instance.attr("data-webpart-properties", "[" + JSON.stringify(properties) + "]");
-                return $('<div>').append(instance.clone()).html();
+                return jQuery('<div>').append(instance.clone()).html();
             }
             function Log(message) {
                 if (window.hasOwnProperty("console") && window.console.info) {
@@ -93,7 +94,7 @@ var OM;
                     }
                     $toolPane.append(String['format'](Templates.Container, Util.ReplaceAll(webpart.id[1], '-', '_'), props.join('')));
                     var $submit = jQuery("input[type='submit'][name*='OKBtn'], input[type='submit'][name*='AppBtn']");
-                    $submit.click(function (event, args) {
+                    $submit.click(function () {
                         GetHiddenInputFieldForWebPart(webpart.id[1]).val(GetUpdatedWebPartHtml(webpart.instance));
                     });
                 }
@@ -142,7 +143,7 @@ var OM;
             }
             Manager.Init = Init;
             function RenderAllWebParts() {
-                CustomWebParts.WebParts.forEach(function (wp) { return wp.Render(); });
+                CustomWebParts.WebParts.forEach(function (wp) { return wp.render(); });
             }
             function Render(webpart) {
                 if (!Util.InEditMode()) {

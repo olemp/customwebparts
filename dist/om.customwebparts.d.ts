@@ -8,7 +8,7 @@ declare namespace OM.CustomWebParts {
         render(): void;
         constructor(element: any);
     }
-    var WebParts: any[];
+    var WebParts: WebPart[];
     namespace Manager {
         function Init(): void;
         function Render(webpart: WebPart): void;

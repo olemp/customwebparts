@@ -9,7 +9,8 @@ namespace OM.CustomWebParts {
             return str ? str.replace(new RegExp(f, '\g'), r) : "";
         }
         export function GetToolPaneForWebPart(webpartid: string): JQuery {
-            return jQuery(`.ms-TPBody[id*='${ReplaceAll(webpartid, '-', '_')}']`).first();
+            let _wpId = ReplaceAll(webpartid, '-', '_');
+            return jQuery(`.ms-TPBody[id*='${_wpId}']`).first();
         }
         export function GetHiddenInputFieldForWebPart(webpartid: string): JQuery {
             return jQuery(`.aspNetHidden input[name*='${webpartid}']`);
@@ -20,8 +21,8 @@ namespace OM.CustomWebParts {
         function GetUpdatedWebPartHtml(instance: any): string {
             var properties = instance.data("webpart-properties")[0];
             Object.keys(properties).forEach(key => {
-                var $input = jQuery(`input.UserInput[name*='EditorZone'][name*='${key}'], select.UserSelect[name*='EditorZone'][name*='${key}']`), elementType = $input.prop("tagName");
-                switch (elementType) {
+                var $input = jQuery(`input.UserInput[name*='EditorZone'][name*='${key}'], select.UserSelect[name*='EditorZone'][name*='${key}']`), eleType = $input.prop("tagName");
+                switch (eleType) {
                     case "INPUT": {
                         switch ($input.attr("type")) {
                             case "text": properties[key] = $input.val();
@@ -36,19 +37,19 @@ namespace OM.CustomWebParts {
                 }
             });
             instance.attr("data-webpart-properties", `[${JSON.stringify(properties)}]`);
-            return $('<div>').append(instance.clone()).html();
+            return jQuery('<div>').append(instance.clone()).html();
         }
-        export function Log(message: string) {
+        export function Log(message: string): void {
             if (window.hasOwnProperty("console") && window.console.info) {
                 console.info(message);
             }
         }
-        export function Error(message: string) {
+        export function Error(message: string): void {
             if (window.hasOwnProperty("console") && window.console.error) {
                 console.error(message);
             }
         }
-        export function InEditMode() {
+        export function InEditMode(): boolean {
             var formName = (typeof window['MSOWebPartPageFormName'] === "string") ? window['MSOWebPartPageFormName'] : "aspnetForm", form = window.document.forms[formName];
             if (form && ((form['MSOLayout_InDesignMode'] && form['MSOLayout_InDesignMode'].value) || (typeof window['MSOLayout_IsWikiEditMode'] === "function" && window['MSOLayout_IsWikiEditMode']()))) {
                 return true;
@@ -76,7 +77,7 @@ namespace OM.CustomWebParts {
                 }
                 $toolPane.append(String['format'](Templates.Container, Util.ReplaceAll(webpart.id[1], '-', '_'), props.join('')));
                 var $submit = jQuery("input[type='submit'][name*='OKBtn'], input[type='submit'][name*='AppBtn']");
-                $submit.click(function (event, args) {
+                $submit.click(() => {
                     GetHiddenInputFieldForWebPart(webpart.id[1]).val(GetUpdatedWebPartHtml(webpart.instance));
                 });
             }
@@ -104,7 +105,7 @@ namespace OM.CustomWebParts {
             this.properties = this.instance.data("webpart-properties");
         }
     }
-    export var WebParts = [];
+    export var WebParts: WebPart[] = [];
     var Templates = {
         Container: "<div> <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%;border-collapse:collapse;\"> <tbody> <tr> <td><div class=\"UserSectionTitle\"><a id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_IMAGEANCHOR\" href=\"#\" onkeydown=\"WebPartMenuKeyboardClick(this, 13, 32, event);\" style=\"cursor:hand\" onclick=\"javascript:MSOTlPn_ToggleDisplay('ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory', 'ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_IMAGE', 'ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_ANCHOR', 'Expand category: Custom', 'Collapse category: Custom','ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_IMAGEANCHOR'); return false;\" title=\"Expand category: Custom\">&nbsp;<img id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_IMAGE\" alt=\"Expand category: Custom\" border=\"0\" src=\"/_layouts/15/images/TPMax2.gif\">&nbsp;</a><a tabindex=\"-1\" onkeydown=\"WebPartMenuKeyboardClick(this, 13, 32, event);\" id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_ANCHOR\" style=\"cursor:hand\" onclick=\"javascript:MSOTlPn_ToggleDisplay('ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory', 'ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_IMAGE', 'ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_ANCHOR', 'Expand category: Custom', 'Collapse category: Custom','ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory_IMAGEANCHOR'); return false;\" title=\"Expand category: Custom\"> &nbsp;Custom</a></div></td> </tr> </tbody> </table><div class=\"ms-propGridTable\" id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_CustomCategory\" style=\"display:none;\"> <table cellspacing=\"0\" style=\"border-width:0px;width:100%;border-collapse:collapse;\"> <tbody>{1}</tbody> </table> </div> </div>",
         Field_String: "<tr><td><input type=\"hidden\" name=\"ctl00$MSOTlPn_EditorZone$Edit0g_{0}$ctl11${1}_ROWSTATE\" id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_ctl11_{1}_ROWSTATE\" value=\"0\"><div class=\"UserSectionHead\"><label for=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_ctl11_{1}_EDITOR\" title=\"\">{1}</label></div><div class=\"UserSectionBody\"><div class=\"UserControlGroup\"><nobr><input name=\"ctl00$MSOTlPn_EditorZone$Edit0g_{0}$ctl11${1}_EDITOR\" type=\"text\" id=\"ctl00_MSOTlPn_EditorZone_Edit0g_{0}_ctl11_{1}_EDITOR\" class=\"UserInput\" ms-tlpnwiden=\"true\" style=\"width:176px;{1}:ltr;\" value=\"{2}\"></nobr></div></div><div style=\"width:100%\" class=\"UserDottedLine\"></div></td></tr>",
@@ -123,7 +124,7 @@ namespace OM.CustomWebParts {
             RenderAllWebParts();
         }
         function RenderAllWebParts(): void {
-            WebParts.forEach(wp => wp.Render());
+            WebParts.forEach(wp => wp.render());
         }
         export function Render(webpart: WebPart): void {
             if (!Util.InEditMode()) {
