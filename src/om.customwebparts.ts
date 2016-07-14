@@ -220,7 +220,7 @@ namespace OM.CustomWebParts {
                 if (!wp.renderevent) {
                     wp.render();
                 } {
-                    ExecuteOrDelayUntilEventNotified(wp.render, wp.renderevent);
+                    ExecuteOrDelayUntilEventNotified(() => { wp.render(); }, wp.renderevent);
                 }
             });
         }

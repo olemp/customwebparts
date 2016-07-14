@@ -151,7 +151,7 @@ var OM;
                         wp.render();
                     }
                     {
-                        ExecuteOrDelayUntilEventNotified(wp.render, wp.renderevent);
+                        ExecuteOrDelayUntilEventNotified(function () { wp.render(); }, wp.renderevent);
                     }
                 });
             }
