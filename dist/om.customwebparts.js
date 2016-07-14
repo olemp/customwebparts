@@ -115,6 +115,7 @@ var OM;
                     this.instance.parents("div[webpartid2]").first().length > 0 ? this.instance.parents("div[webpartid2]").first().attr("webpartid2") : this.instance.parents("div[webpartid]").first().attr("webpartid")
                 ];
                 this.renderfunction = this.instance.data("webpart-renderfunction");
+                this.renderevent = this.instance.data("webpart-renderevent");
                 this.properties = this.instance.data("webpart-properties");
             }
             WebPart.prototype.render = function () {
@@ -145,7 +146,14 @@ var OM;
             }
             Manager.Init = Init;
             function RenderAllWebParts() {
-                CustomWebParts.WebParts.forEach(function (wp) { return wp.render(); });
+                CustomWebParts.WebParts.forEach(function (wp) {
+                    if (!wp.renderevent) {
+                        wp.render();
+                    }
+                    {
+                        ExecuteOrDelayUntilEventNotified(wp.render, wp.renderevent);
+                    }
+                });
             }
             function Render(webpart) {
                 if (!Util.InEditMode()) {

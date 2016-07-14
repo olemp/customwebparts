@@ -4,6 +4,7 @@ declare namespace OM.CustomWebParts {
         instance: any;
         id: Array<string>;
         renderfunction: string;
+        renderevent: string;
         properties: Array<Object>;
         render(): void;
         constructor(element: any);

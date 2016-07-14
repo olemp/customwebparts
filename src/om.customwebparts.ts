@@ -159,6 +159,7 @@ namespace OM.CustomWebParts {
         public instance: any;
         public id: Array<string>;
         public renderfunction: string;
+        public renderevent: string;
         public properties: Array<Object>;
 
         /**
@@ -180,6 +181,7 @@ namespace OM.CustomWebParts {
                 this.instance.parents("div[webpartid2]").first().length > 0 ? this.instance.parents("div[webpartid2]").first().attr("webpartid2") : this.instance.parents("div[webpartid]").first().attr("webpartid")
             ]
             this.renderfunction = this.instance.data("webpart-renderfunction");
+            this.renderevent = this.instance.data("webpart-renderevent");
             this.properties = this.instance.data("webpart-properties");
         }
     }
@@ -214,7 +216,13 @@ namespace OM.CustomWebParts {
             RenderAllWebParts();
         }
         function RenderAllWebParts(): void {
-            WebParts.forEach(wp => wp.render());
+            WebParts.forEach(wp => {
+                if (!wp.renderevent) {
+                    wp.render();
+                } {
+                    ExecuteOrDelayUntilEventNotified(wp.render, wp.renderevent);
+                }
+            });
         }
         export function Render(webpart: WebPart): void {
             if (!Util.InEditMode()) {
