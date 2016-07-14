@@ -2,10 +2,16 @@ var OM;
 (function (OM) {
     var CustomWebParts;
     (function (CustomWebParts) {
+        var _config = {
+            wp_class: ".custom-webpart",
+            linkedit_selector: ".ms-rte-embedcode-linkedit",
+            hiddeninput_selector: ".aspNetHidden input",
+            toolpane_selector: ".ms-TPBody"
+        };
         var Util;
         (function (Util) {
             function GetWebPartsDefinitions() {
-                return jQuery(Properties.WebPartClass);
+                return jQuery(_config.wp_class);
             }
             Util.GetWebPartsDefinitions = GetWebPartsDefinitions;
             function ReplaceAll(str, f, r) {
@@ -14,11 +20,11 @@ var OM;
             Util.ReplaceAll = ReplaceAll;
             function GetToolPaneForWebPart(webpartid) {
                 var _wpId = ReplaceAll(webpartid, '-', '_');
-                return jQuery(".ms-TPBody[id*='" + _wpId + "']").first();
+                return jQuery(_config.toolpane_selector + "[id*='" + _wpId + "']").first();
             }
             Util.GetToolPaneForWebPart = GetToolPaneForWebPart;
             function GetHiddenInputFieldForWebPart(webpartid) {
-                return jQuery(".aspNetHidden input[name*='" + webpartid + "']");
+                return jQuery(_config.hiddeninput_selector + "[name*='" + webpartid + "']");
             }
             Util.GetHiddenInputFieldForWebPart = GetHiddenInputFieldForWebPart;
             function GetSelectOptionsFromArray(options, defaultValue) {
@@ -50,15 +56,15 @@ var OM;
                 instance.attr("data-webpart-properties", "[" + JSON.stringify(properties) + "]");
                 return jQuery('<div>').append(instance.clone()).html();
             }
-            function Log(message) {
+            function Log(msg) {
                 if (window.hasOwnProperty("console") && window.console.info) {
-                    console.info(message);
+                    console.info(msg);
                 }
             }
             Util.Log = Log;
-            function Error(message) {
+            function Error(msg) {
                 if (window.hasOwnProperty("console") && window.console.error) {
-                    console.error(message);
+                    console.error(msg);
                 }
             }
             Util.Error = Error;
@@ -75,7 +81,7 @@ var OM;
             function RenderWebPartProperties(webpart) {
                 var properties = webpart.properties[0], $toolPane = GetToolPaneForWebPart(webpart.id[1]);
                 if (Object.keys(properties).length > 0 && $toolPane.length > 0) {
-                    jQuery(".ms-rte-embedcode-linkedit").hide();
+                    jQuery(_config.linkedit_selector).hide();
                     var props = [];
                     for (var i = 0; i < Object.keys(properties).length; i++) {
                         var key = Object.keys(properties)[i], value = properties[key];
@@ -101,10 +107,6 @@ var OM;
             }
             Util.RenderWebPartProperties = RenderWebPartProperties;
         })(Util || (Util = {}));
-        var Properties;
-        (function (Properties) {
-            Properties.WebPartClass = '.custom-webpart';
-        })(Properties || (Properties = {}));
         var WebPart = (function () {
             function WebPart(element) {
                 this.instance = element;
