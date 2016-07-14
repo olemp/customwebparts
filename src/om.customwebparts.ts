@@ -16,7 +16,7 @@ namespace OM.CustomWebParts {
             return jQuery(`.aspNetHidden input[name*='${webpartid}']`);
         }
         function GetSelectOptionsFromArray(options: Array<string>, defaultValue: string): string {
-            return options.map(o => String['format']("<option{0}>{1}</option>", (o == defaultValue) ? " selected" : "", o)).join("");
+            return options.map(o => String.format("<option{0}>{1}</option>", (o == defaultValue) ? " selected" : "", o)).join("");
         }
         function GetUpdatedWebPartHtml(instance: any): string {
             var properties = instance.data("webpart-properties")[0];
@@ -66,16 +66,16 @@ namespace OM.CustomWebParts {
                     var key = Object.keys(properties)[i], value = properties[key];
                     if (webpart.instance.data("webpart-choices") != null && webpart.instance.data("webpart-choices")[key] != null) {
                         var options = GetSelectOptionsFromArray(webpart.instance.data("webpart-choices")[key].split(","), value);
-                        props.push(String['format'](Templates.Field_Choice, Util.ReplaceAll(webpart.id[1], '-', '_'), key, options));
+                        props.push(String.format(Templates.Field_Choice, Util.ReplaceAll(webpart.id[1], '-', '_'), key, options));
                     } else {
                         if (value == "true" || value == "false") {
-                            props.push(String['format'](Templates.Field_Boolean, Util.ReplaceAll(webpart.id[1], '-', '_'), key, value == "true" ? "checked" : ""))
+                            props.push(String.format(Templates.Field_Boolean, Util.ReplaceAll(webpart.id[1], '-', '_'), key, value == "true" ? "checked" : ""))
                         } else {
-                            props.push(String['format'](Templates.Field_String, Util.ReplaceAll(webpart.id[1], '-', '_'), key, value))
+                            props.push(String.format(Templates.Field_String, Util.ReplaceAll(webpart.id[1], '-', '_'), key, value))
                         }
                     }
                 }
-                $toolPane.append(String['format'](Templates.Container, Util.ReplaceAll(webpart.id[1], '-', '_'), props.join('')));
+                $toolPane.append(String.format(Templates.Container, Util.ReplaceAll(webpart.id[1], '-', '_'), props.join('')));
                 var $submit = jQuery("input[type='submit'][name*='OKBtn'], input[type='submit'][name*='AppBtn']");
                 $submit.click(() => {
                     GetHiddenInputFieldForWebPart(webpart.id[1]).val(GetUpdatedWebPartHtml(webpart.instance));
